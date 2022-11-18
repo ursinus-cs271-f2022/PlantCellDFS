@@ -36,27 +36,22 @@ def load_cells_grayscale(filename, n_pixels = 0):
     return cells_gray
 
 
-def permute_labels(labels):
-    """
-    Shuffle around labels by raising them to a prime and
-    modding by a large-ish prime, so that cells are easier
-    to see against their backround
-    Parameters
-    ----------
-    labels: ndarray(M, N)
-        An array of labels for the pixels in the image
-    Returns
-    -------
-    labels_shuffled: ndarray(M, N)
-        A new image where the labels are different but still
-        the same within connected components
-    """
-    return (labels**31) % 833
+def get_centers(I, thresh):
+    ## TODO: Fill this in
+    clusters = []
+    
+    X = np.zeros((len(clusters), 2))
+    for i in range(X.shape[0]):
+        X[i, :] = np.mean(np.array(clusters[i]), 0)
+    return X
 
 
 ## TODO: Fill in your code here
 
 if __name__ == '__main__':
+    cells_original = skimage.io.imread("Cells.jpg")
     I = load_cells_grayscale("Cells.jpg")
-    plt.imshow(I, cmap='magma')
+    X = get_centers(I, 0.7)
+    plt.imshow(cells_original, cmap='gray')
+    plt.scatter(X[:, 1], X[:, 0])
     plt.show()
